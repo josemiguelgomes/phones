@@ -3,16 +3,11 @@
 
 Goal: to search US phone numbers based on area code and email a customer. \
 Setup  a Django 4 project. \
-    - python -m pip install --upgrade pip
-    - python -m pip install Django
-    
 Using PosgtreSQL, create a table with 20 customers. \
     - brew install postgresql
     - brew services restart postgresql as background
     - /usr/local/opt/postgresql/bin/postgres -D /usr/local/var/postgres as online
-    - psql postgres
-     
-    
+    - psql postgres 
 Using Django Rest Framework, create an API that: \
 a. Accepts an area code the URL \
 b. Checks if the area code is valid i.e it's a US area code. \
