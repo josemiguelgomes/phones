@@ -19,3 +19,7 @@ d. Returns the emailed phone number or None in the response.
 US area codes are available online. Also, you can get a list of random US phone numbers for use in this exercise.
 
 This task can be accomplished in 1 day or so.
+
+
+# To run Unit Tests (through Docker Compose)
+docker-compose run --rm app sh -c "python manage.py test"

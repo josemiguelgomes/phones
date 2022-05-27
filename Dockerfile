@@ -2,6 +2,9 @@ FROM python:3.10.4-alpine3.16
 LABEL maintainer="zem.com"
 
 ENV PYTHONUNBUFFERED 1
+ENV VIRTUAL_ENV=/opt/venv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 COPY ./requirements.txt /tmp/requirements.txt
 COPY ./requirements.dev.txt /tmp/requirements.dev.txt
@@ -10,18 +13,15 @@ WORKDIR /app
 EXPOSE 8000
 
 ARG DEV=false
-RUN python -m venv /py && \
-    pip install --upgrade pip && \
-    pip install -r /tmp/requirements.txt & \
-    if [ $DEV = "true" ]; \
+RUN pip install --upgrade pip
+RUN pip install -r /tmp/requirements.txt
+RUN if [ $DEV = "true" ]; \
         then pip install -r /tmp/requirements.dev.txt ; \
-    fi && \
-    rm -rf /tmp && \
-    adduser \
+    fi
+RUN rm -rf /tmp
+RUN adduser \
         --disabled-password \
         --no-create-home \
         django-user
-    
-ENV PATH="/py/bin:$PATH"
 
 USER django-user
