@@ -5,8 +5,9 @@ from django.test import SimpleTestCase
 
 from app import calc
 
-class CalculatorTests(SimpleTestCase):
+class CalculatorTests(SimpleTestCase):   
     """Test the calc module"""
+    
 
     def test_add_positive_numbers(self):
         res = calc.add(1, 3)
@@ -22,3 +23,4 @@ class CalculatorTests(SimpleTestCase):
 
         
     
+
