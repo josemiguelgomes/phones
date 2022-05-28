@@ -1,3 +1,6 @@
 [flake8]
 ignore = E501
-exclude = ./app/core/migrations
+exclude =
+   .git,
+   __pycache__,
+   ./app/core/migrations
