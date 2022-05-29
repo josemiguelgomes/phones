@@ -27,5 +27,5 @@ docker-compose run --rm app sh -c "python manage.py test"
 # Endpoints
 http://localhost:8000/admin/ \
 http://localhost:8000/api/schema/ \
-http://localhost:8000/api/docs/ \
+http://localhost:8000/api/docs/
 

@@ -1,6 +1,7 @@
 """
 Database Models
 """
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -43,3 +44,20 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
+
+
+class Customer(models.Model):
+    """Customer object."""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    name = models.CharField(max_length=255)
+    phone_country = models.CharField(max_length=4)
+    phone_area = models.CharField(max_length=3)
+    phone_code1 = models.CharField(max_length=3)
+    phone_code2 = models.CharField(max_length=4)
+    email = models.EmailField(max_length=255, unique=False)
+
+    def __str__(self):
+        return self.name
