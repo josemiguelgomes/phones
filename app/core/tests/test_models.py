@@ -3,6 +3,8 @@ Tests for models.
 """
 from django.test import TestCase
 from django.contrib.auth import get_user_model
+from model_bakery import baker
+from pprint import pprint
 
 from core import models
 
@@ -48,6 +50,15 @@ class ModelTests(TestCase):
 
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
+
+
+class TestCustomer(TestCase):
+    """Test Customer Model"""
+
+    def setUo(self):
+        self.customer = baker.make('core.Customer')
+        self.stdout.write(pprint(self.customer.__dict__))
+        self.stdout.write('CUSTOMERS WRITTEN')
 
     def test_create_customer(self):
         """Test creating a customer successful."""

@@ -29,3 +29,6 @@ http://localhost:8000/admin/ \
 http://localhost:8000/api/schema/ \
 http://localhost:8000/api/docs/
 
+
+# Amazon Web Services
+http://ec2-54-91-96-73.compute-1.amazonaws.com:8000/api/docs/
