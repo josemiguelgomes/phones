@@ -211,3 +211,85 @@ class PrivateCustomerAPITests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_404_NOT_FOUND)
         self.assertTrue(Customer.objects.filter(id=customer.id).exists())
+
+    def test_filter_by_phone_area(self):
+        """Test filtering customers by Phone Area"""
+        c1 = create_customer(
+            user=self.user,
+            name='Mary Briggs',
+            phone_country='+1',
+            phone_area='201',
+            phone_code1='666',
+            phone_code2='0045',
+            email='mary.briggs@example.com',
+        )
+        c2 = create_customer(
+            user=self.user,
+            name='Mr Ed',
+            phone_country='+1',
+            phone_area='202',
+            phone_code1='888',
+            phone_code2='0034',
+            email='mr.ed@example.com',
+        )
+        c3 = create_customer(
+            user=self.user,
+            name='John Doe',
+            phone_country='+1',
+            phone_area='203',
+            phone_code1='555',
+            phone_code2='0033',
+            email='john.doe@example.com',
+        )
+
+        params = {'phone_area': {'202', '203'}}
+        res = self.client.get(CUSTOMER_URL, params)
+
+        s1 = CustomerSerializer(c1)
+        s2 = CustomerSerializer(c2)
+        s3 = CustomerSerializer(c3)
+
+        self.assertNotIn(s1.data, res.data)
+        self.assertIn(s2.data, res.data)
+        self.assertIn(s3.data, res.data)
+
+    def test_filter_by_phone_country(self):
+        """Test filtering customers by Phone Country"""
+        c1 = create_customer(
+            user=self.user,
+            name='Mary Briggs',
+            phone_country='+1',
+            phone_area='201',
+            phone_code1='666',
+            phone_code2='0045',
+            email='mary.briggs@example.com',
+        )
+        c2 = create_customer(
+            user=self.user,
+            name='Mr Ed',
+            phone_country='+351',
+            phone_area='202',
+            phone_code1='888',
+            phone_code2='0034',
+            email='mr.ed@example.com',
+        )
+        c3 = create_customer(
+            user=self.user,
+            name='John Doe',
+            phone_country='+44',
+            phone_area='203',
+            phone_code1='555',
+            phone_code2='0033',
+            email='john.doe@example.com',
+        )
+
+        params = {'phone_country': {'+44'}}
+        res = self.client.get(CUSTOMER_URL, params)
+
+        s1 = CustomerSerializer(c1)
+        s2 = CustomerSerializer(c2)
+        s3 = CustomerSerializer(c3)
+
+        self.assertNotIn(s1.data, res.data)
+        self.assertNotIn(s2.data, res.data)
+        self.assertIn(s3.data, res.data)
