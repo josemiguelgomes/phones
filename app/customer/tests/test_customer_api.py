@@ -4,6 +4,7 @@ Tests for Customer APIs.
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
+from django.core import mail
 
 from rest_framework import status
 from rest_framework.test import APIClient
@@ -293,3 +294,17 @@ class PrivateCustomerAPITests(TestCase):
         self.assertNotIn(s1.data, res.data)
         self.assertNotIn(s2.data, res.data)
         self.assertIn(s3.data, res.data)
+
+    def test_send_email(self):
+        """Test email sending."""
+        mail.send_mail(
+            'My subject',
+            'My message body',
+            'from@mydjangoapp.com',
+            ['to@mybestuser.com'],
+            fail_silently=False,
+        )
+
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject, 'My subject')
+        self.assertEqual(mail.outbox[0].body, 'My message body')

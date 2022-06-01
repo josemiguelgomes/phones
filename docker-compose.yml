@@ -8,6 +8,7 @@ services:
         - DEV=true
     ports:
       - "8000:8000"
+      - "2525:2525"
     volumes:
       - ./app:/app
     command: >
@@ -20,6 +21,10 @@ services:
       - DB_USER=devuser
       - DB_PASS=changeme
       - DEBUG=1
+      - EMAIL_HOST=smtp.mailtrap.io
+      - EMAIL_HOST_USER=892255ab812412
+      - EMAIL_HOST_PASSWORD=7fa564e3923425
+      - EMAIL_PORT=2525
     depends_on:
       - db
 

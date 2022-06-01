@@ -14,6 +14,8 @@ from rest_framework.permissions import IsAuthenticated
 from core.models import Customer
 from customer import serializers
 
+from django.core.mail import send_mail
+
 
 @extend_schema_view(
     list=extend_schema(
@@ -50,9 +52,22 @@ class CustomerViewSet(viewsets.ModelViewSet):
         if phone_country:
             queryset = queryset.filter(phone_country__in=phone_country)
 
-        return queryset.filter(
+        queryset = queryset.filter(
             user=self.request.user
         ).order_by('-id').distinct()
+
+        """Emails to the first customer found in the search
+           (if the search was done by phone_area"""
+        first_element = queryset.all().first()
+        if first_element is not None:
+            send_mail('Test Subject',
+                      'Here is the message',
+                      'from@example.com',
+                      [first_element.email],
+                      fail_silently=False
+                      )
+
+        return queryset
 
     def get_serializer_class(self):
         """Return the serializer class for request"""
